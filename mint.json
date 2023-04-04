@@ -1,6 +1,6 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Documentation Starter Kit",
+  "name": "Pagecall Documentation",
   "logo": {
     "dark": "/logo/dark.png",
     "light": "/logo/light.png"
@@ -11,41 +11,26 @@
     "light": "#4D9CFF",
     "dark": "#0050B4"
   },
-  "topbarLinks": [
-    {
-      "name": "Documentation",
-      "url": "https://mintlify.com/docs"
-    }
-  ],
-  "topbarCtaButton": {
-    "name": "Get Started",
-    "url": "https://github.com/mintlify/starter"
-  },
   "anchors": [
     {
       "name": "API Reference",
       "icon": "rectangle-terminal",
       "url": "api-reference"
-    },
-    {
-      "name": "Changelog",
-      "icon": "list",
-      "url": "https://mintlify.com"
-    },
-    {
-      "name": "Community",
-      "icon": "discord",
-      "url": "https://mintlify.com/community"
     }
   ],
   "navigation": [
     {
       "group": "Home",
-      "pages": ["introduction", "features"]
+      "pages": [
+        "introduction",
+        "quickstart"
+      ]
     },
     {
       "group": "API Documentation",
-      "pages": ["api-reference/authentication"]
+      "pages": [
+        "api-reference/authentication"
+      ]
     },
     {
       "group": "Endpoint Examples",
@@ -57,9 +42,18 @@
       ]
     }
   ],
+  "openapi": "/openapi3.yaml",
+  "api": {
+    "auth": {
+      "method": "bearer"
+    }
+  },
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
+    "github": "https://github.com/pplink",
+    "linkedin": "https://kr.linkedin.com/company/pagecall"
+  },
+  "modeToggle": {
+    "default": "light",
+    "isHidden": true
   }
 }

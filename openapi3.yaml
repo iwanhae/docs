@@ -1,0 +1,394 @@
+openapi: 3.0.0
+info:
+  title: Pagecall Public API - OpenAPI 3.0
+  description: |-
+    Update ME!
+  termsOfService: https://pplink.notion.site/774e4131813b47f8b06e3da4524604e8
+  contact:
+    email: support@pagecall.com
+  version: 1.0.0
+externalDocs:
+  description: Update ME!
+  url: https://pagecall.com
+servers:
+  - url: https://api.pagecall.com/v1
+tags:
+  - name: room
+    description: Operations about room resources
+paths:
+  /rooms:
+    get:
+      security:
+        - ApiKeyAuth: []
+      tags: [room]
+      summary: List Rooms
+      description: List all accessible rooms
+      operationId: listRooms
+      parameters:
+        - in: query
+          name: offset
+          schema:
+            type: integer
+          description: The number of items to skip before starting to collect the result set
+        - in: query
+          name: limit
+          schema:
+            type: integer
+          description: The numbers of items to return
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: Exact name of the room to search.
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rooms:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Room"
+                  paging:
+                    $ref: "#/components/schemas/Paging"
+        "400":
+          description: Invalid Parameters Supplied or Unauthenticated or Unauthorized
+        "500":
+          description: Validation exception
+    post:
+      security:
+        - ApiKeyAuth: []
+      tags: [room]
+      summary: Create Room
+      description: Create a new room
+      operationId: createRoom
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateRoomRequest"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  rooms:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Room"
+                  paging:
+                    $ref: "#/components/schemas/Paging"
+        "400":
+          description: Invalid Parameters Supplied or Unauthenticated or Unauthorized
+        "500":
+          description: Validation exception
+  /rooms/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+        description: room id
+        example: 000585f36eed9e8fb6b655b4
+    get:
+      security:
+        - ApiKeyAuth: []
+      tags: [room]
+      summary: Get Room
+      description: Get a single room info
+      operationId: getRoom
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  room:
+                    $ref: "#/components/schemas/Room"
+        "400":
+          description: Invalid Parameters Supplied or Unauthenticated or Unauthorized
+        "500":
+          description: Validation exception
+    put:
+      security:
+        - ApiKeyAuth: []
+      tags: [room]
+      summary: Update Room Setting
+      description: Update some of room settings
+      operationId: updateRoom
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateRoomRequest"
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  room:
+                    $ref: "#/components/schemas/Room"
+        "400":
+          description: Invalid Parameters Supplied or Unauthenticated or Unauthorized
+        "500":
+          description: Validation exception
+    delete:
+      security:
+        - ApiKeyAuth: []
+      tags: [room]
+      summary: Delete Room
+      description: Delete room
+      operationId: deleteRoom
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  room:
+                    $ref: "#/components/schemas/Room"
+        "400":
+          description: Invalid Parameters Supplied or Unauthenticated or Unauthorized
+        "500":
+          description: Validation exception
+  /room_templates:
+    get:
+      security:
+        - ApiKeyAuth: []
+      tags: [room]
+      summary: List Room Templates
+      description: List available room templates for the user
+      operationId: listRoomTemplate
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - room_templates
+                properties:
+                  room_templates:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/RoomTemplate"
+                  paging:
+                    $ref: "#/components/schemas/Paging"
+components:
+  schemas:
+    Paging:
+      description: Details of pagination used for current responses.
+      type: object
+      required:
+        - limit
+        - offset
+        - total
+      properties:
+        limit:
+          type: number
+          default: 30
+        offset:
+          type: number
+          default: 0
+        total:
+          type: number
+    Room:
+      description: Information about room
+      required:
+        - id
+        - type
+        - name
+      properties:
+        id:
+          type: string
+          example: 000585f36eed9e8fb6b655b4
+          description: id of the room
+        application_id:
+          type: string
+          example: 000585f36eed9e8fb6b655b4
+          description: workspace id
+        type:
+          $ref: "#/components/schemas/RoomType"
+        created_user_id:
+          type: string
+          example: 000585f36eed9e8fb6b655b4
+          description: id of the user who create this room
+        name:
+          type: string
+          example: "Weekly Meet"
+          description: name of the room
+        thumbnail_url:
+          type: string
+          example: https://example.url/thumbnail.png
+          description: generated thumbnail for this room
+        last_thumbnail_updated_at:
+          example: "2023-01-01T01:00:00.000Z"
+          type: string
+          format: date-time
+        room_template_id:
+          type: string
+          example: 63d0bf2b2dbc8f9743338be8
+        room_template_name:
+          type: string
+          example: "video conference room"
+        record:
+          type: boolean
+          description: is this room records all meeting?
+        live_time:
+          type: integer
+          example: 200000
+          description: timestamp Update ME!
+        meeting_time:
+          type: integer
+          example: 200000
+          description: timestamp Update ME!
+        started_at:
+          example: "2023-01-01T01:00:00.000Z"
+          type: string
+          format: date-time
+        terminated_at:
+          example: "2023-01-01T01:00:00.000Z"
+          type: string
+          format: date-time
+        updated_at:
+          example: "2023-01-01T01:00:00.000Z"
+          type: string
+          format: date-time
+        created_at:
+          example: "2023-01-01T01:00:00.000Z"
+          type: string
+          format: date-time
+        is_ephemeral:
+          type: boolean
+          description: Update ME!
+        is_recurring:
+          type: boolean
+          description: Update ME!
+        is_terminated:
+          type: boolean
+        members:
+          type: array
+          items:
+            $ref: "#/components/schemas/Member"
+    Member:
+      description: Information about member of the specific room
+      type: object
+      required:
+        - user_id
+        - type
+      properties:
+        user_id:
+          type: string
+          example: 000585f36eed9e8fb6b655b4
+          description: uniqeu id of the user in application (workspace) scope
+        type:
+          type: string
+          description: type of user entered in the room
+          enum:
+            - guest
+            - host
+            - monitor
+          example: guest
+        name:
+          type: string
+          example: user-1
+          description: display name of the user in meeting room
+    RoomType:
+      type: string
+      description: |
+        Room can have three different type
+
+        * `open`    - anyone who obtain this room url can join and replay the meet.
+        * `public`  - any member who haved joined in same worksapce can join and replay the meet.
+        * `private` - only invited workspace user can join and replay the meet.
+      enum:
+        - open
+        - public
+        - private
+      example: public
+    UpdateRoomRequest:
+      description: Request format to update setting of exisiting room
+      type: object
+      required:
+        - application_id
+      properties:
+        name:
+          type: string
+          description: to chagne current room name
+          example: "Monthly Meetting - 2"
+        is_terminated:
+          type: boolean
+          description: set true if wanted to delete this room
+          default: false
+        is_record_deleted:
+          type: boolean
+          description: set true if wanted to delete all recordings
+          default: false
+        application_id:
+          type: string
+          description: specify application (workspace) id this room belongs to
+          example: 63d0bf2b2dbc8f9743338be8
+    CreateRoomRequest:
+      description: Request format to create a new room
+      type: object
+      required:
+        - name
+        - type
+      properties:
+        name:
+          type: string
+          example: "Meeting Room - 1"
+        type:
+          $ref: "#/components/schemas/RoomType"
+        record:
+          type: boolean
+          default: true
+        is_distinct:
+          type: boolean
+          default: false
+        is_ephemeral:
+          type: boolean
+          default: false
+        is_recurring:
+          type: boolean
+          default: false
+        room_template_id:
+          type: string
+          example: 63d0bf2b2dbc8f9743338be8
+        members:
+          type: array
+          description: specify invited user_id and type
+          items:
+            $ref: "#/components/schemas/Member"
+    RoomTemplate:
+      type: object
+      required:
+        - name
+        - id
+      properties:
+        name:
+          type: string
+          description: name of room template
+        id:
+          type: string
+          description: id of room template to create a new room
+  securitySchemes:
+    ApiKeyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: token
