@@ -52,6 +52,16 @@ paths:
                     type: array
                     items:
                       $ref: "#/components/schemas/Room"
+                    example:
+                      - id: "000585f36eed9e8fb6b655b4"
+                        type: "private"
+                        name: "Monthly Meeting Room with Design Class"
+                      - id: "000235f36efd9e8db6bc55b4"
+                        type: "public"
+                        name: "Daily Meet"
+                      - id: "000935fc6efd9f8db61c35b4"
+                        type: "open"
+                        name: "Free Disgn Class"
                   paging:
                     $ref: "#/components/schemas/Paging"
         "400":
@@ -242,52 +252,57 @@ components:
           example: https://example.url/thumbnail.png
           description: generated thumbnail for this room
         last_thumbnail_updated_at:
+          description: last update time of generated thumbnail
           example: "2023-01-01T01:00:00.000Z"
           type: string
           format: date-time
         room_template_id:
+          description: id of the room template used by this room
           type: string
           example: 63d0bf2b2dbc8f9743338be8
         room_template_name:
+          description: name of the room template used by this room
           type: string
           example: "video conference room"
         record:
           type: boolean
           description: is this room records all meeting?
-        live_time:
-          type: integer
-          example: 200000
-          description: timestamp Update ME!
         meeting_time:
           type: integer
           example: 200000
-          description: timestamp Update ME!
+          description: total duration of meeting time in seconds
+        is_terminated:
+          type: boolean
+          description: is terminated room? (not available to join the room)
+        is_ephemeral:
+          type: boolean
+          description: this room is a temporary room. The room will be terminated when every members in this room exited
+        is_recurring:
+          type: boolean
+          description: this room is reserved for a meeting that occurs regularly. it will be reopened according to a predefined schedule.
         started_at:
           example: "2023-01-01T01:00:00.000Z"
           type: string
           format: date-time
+          description: the meeting is started at specified time format
         terminated_at:
           example: "2023-01-01T01:00:00.000Z"
           type: string
           format: date-time
+          description: the room is terminated at specified time format
         updated_at:
           example: "2023-01-01T01:00:00.000Z"
           type: string
           format: date-time
+          description: the room setting is changed at specified time format
         created_at:
           example: "2023-01-01T01:00:00.000Z"
           type: string
           format: date-time
-        is_ephemeral:
-          type: boolean
-          description: Update ME!
-        is_recurring:
-          type: boolean
-          description: Update ME!
-        is_terminated:
-          type: boolean
+          description: the room is created at specified time format
         members:
           type: array
+          description: array of users who have joined this room
           items:
             $ref: "#/components/schemas/Member"
     Member:
