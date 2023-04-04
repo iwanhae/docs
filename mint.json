@@ -35,10 +35,12 @@
     {
       "group": "Endpoint Examples",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/update",
-        "api-reference/endpoint/delete"
+        "api-reference/endpoint/List_Rooms",
+        "api-reference/endpoint/Create_Room",
+        "api-reference/endpoint/Get_Room",
+        "api-reference/endpoint/Update_Room",
+        "api-reference/endpoint/Delete_Room",
+        "api-reference/endpoint/List_Room_Templates"
       ]
     }
   ],

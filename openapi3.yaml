@@ -78,10 +78,8 @@ paths:
               schema:
                 type: object
                 properties:
-                  rooms:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/Room"
+                  room:
+                    $ref: "#/components/schemas/Room"
                   paging:
                     $ref: "#/components/schemas/Paging"
         "400":
@@ -122,7 +120,7 @@ paths:
       security:
         - ApiKeyAuth: []
       tags: [room]
-      summary: Update Room Setting
+      summary: Update Room
       description: Update some of room settings
       operationId: updateRoom
       requestBody:
@@ -185,6 +183,12 @@ paths:
                 properties:
                   room_templates:
                     type: array
+                    example:
+                      - id: "000585f36eed9e8fb6b655b4"
+                        name: "templatae-1"
+                      - id: "000585f36eed9effb62615b4"
+                        name: "templatae-2"
+
                     items:
                       $ref: "#/components/schemas/RoomTemplate"
                   paging:
@@ -207,6 +211,7 @@ components:
           default: 0
         total:
           type: number
+          example: 0
     Room:
       description: Information about room
       required:
