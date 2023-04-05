@@ -22,7 +22,7 @@
     {
       "group": "Home",
       "pages": [
-        "introduction"        
+        "introduction"
       ]
     },
     {
@@ -34,7 +34,7 @@
       ]
     },
     {
-      "group": "Endpoints",
+      "group": "Room Endpoints",
       "pages": [
         "references/endpoints/List_Rooms",
         "references/endpoints/Create_Room",
@@ -42,6 +42,25 @@
         "references/endpoints/Update_Room",
         "references/endpoints/Delete_Room",
         "references/endpoints/List_Room_Templates"
+      ]
+    },
+    {
+      "group": "User Endpoints",
+      "pages": [
+        "references/endpoints/List_Users",
+        "references/endpoints/Create_User",
+        "references/endpoints/Get_User",
+        "references/endpoints/Update_User",
+        "references/endpoints/Delete_User"
+      ]
+    },
+    {
+      "group": "Member Endpoints",
+      "pages": [
+        "references/endpoints/List_Members",
+        "references/endpoints/Create_Member",
+        "references/endpoints/Get_Member",
+        "references/endpoints/Update_Member"
       ]
     }
   ],
