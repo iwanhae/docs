@@ -2,14 +2,12 @@ openapi: 3.0.0
 info:
   title: Pagecall Public API - OpenAPI 3.0
   description: |-
-    Update ME!
+    This is a official Pagecall API Documents written in OpenAPI 3.0.
+    Responses from the Pagecall API may contain more information, but what is not stated in this document may change at any time without any notice.
   termsOfService: https://pplink.notion.site/774e4131813b47f8b06e3da4524604e8
   contact:
     email: support@pagecall.com
   version: 1.0.0
-externalDocs:
-  description: Update ME!
-  url: https://pagecall.com
 servers:
   - url: https://api.pagecall.com/v1
 tags:
@@ -232,93 +230,93 @@ components:
         id:
           type: string
           example: 000585f36eed9e8fb6b655b4
-          description: id of the room
+          description: ID of the room
         application_id:
           type: string
           example: 000585f36eed9e8fb6b655b4
-          description: workspace id
+          description: ID of the workspace
         type:
           $ref: "#/components/schemas/RoomType"
         created_user_id:
           type: string
           example: 000585f36eed9e8fb6b655b4
-          description: id of the user who create this room
+          description: ID of the user who create this room
         name:
           type: string
           example: "Weekly Meet"
-          description: name of the room
+          description: Human readable name of the room
         thumbnail_url:
           type: string
           example: https://example.url/thumbnail.png
-          description: generated thumbnail for this room
+          description: Generated thumbnail for this room
         last_thumbnail_updated_at:
-          description: last update time of generated thumbnail
-          example: "2023-01-01T01:00:00.000Z"
           type: string
+          example: "2023-01-01T01:00:00.000Z"
+          description: Last update time of generated thumbnail
           format: date-time
         room_template_id:
-          description: id of the room template used by this room
           type: string
           example: 63d0bf2b2dbc8f9743338be8
-        room_template_name:
-          description: name of the room template used by this room
-          type: string
-          example: "video conference room"
+          description: ID of the room template used by this room
         record:
           type: boolean
-          description: is this room records all meeting?
+          description: Whether this room is recorded or not.
         meeting_time:
           type: integer
           example: 200000
-          description: total duration of meeting time in seconds
+          description: Total meeting time in seconds
         is_terminated:
           type: boolean
-          description: is terminated room? (not available to join the room)
+          description: Whether this room is terminated or not. If true, not available to join the room
         is_ephemeral:
           type: boolean
-          description: this room is a temporary room. The room will be terminated when every members in this room exited
+          description: Whether this room is for temporary or not. If true and all the members of this room leave, the room will be closed
         is_recurring:
           type: boolean
-          description: this room is reserved for a meeting that occurs regularly. it will be reopened according to a predefined schedule.
+          description: Whether this meeting occurs regularly or not. If true, it will be reopened according to a predefined schedule.
         started_at:
           example: "2023-01-01T01:00:00.000Z"
           type: string
+          description: The meeting is started at specified time format
           format: date-time
-          description: the meeting is started at specified time format
         terminated_at:
           example: "2023-01-01T01:00:00.000Z"
           type: string
+          description: The room is terminated at specified time format
           format: date-time
-          description: the room is terminated at specified time format
         updated_at:
           example: "2023-01-01T01:00:00.000Z"
           type: string
+          description: The room settings are changed at specified time format
           format: date-time
-          description: the room setting is changed at specified time format
         created_at:
           example: "2023-01-01T01:00:00.000Z"
           type: string
+          description: The room is created at specified time format
           format: date-time
-          description: the room is created at specified time format
         members:
           type: array
-          description: array of users who have joined this room
+          description: Array of users who have joined this room
           items:
-            $ref: "#/components/schemas/Member"
-    Member:
-      description: Information about member of the specific room
+            $ref: "#/components/schemas/RoomMember"
+    RoomMember:
       type: object
+      description: Information about the member joined the room
       required:
         - user_id
         - type
       properties:
         user_id:
           type: string
+          description: ID of the user in application (workspace) scope
           example: 000585f36eed9e8fb6b655b4
-          description: uniqeu id of the user in application (workspace) scope
         type:
           type: string
-          description: type of user entered in the room
+          description: |
+            Type of user in this room
+            - guest: The user is guest.
+            - host: The user is host. This user has administrator privileges.
+            - monitor: The user is observer. Can watch the meeting, but can not join.
           enum:
             - guest
             - host
@@ -326,8 +324,8 @@ components:
           example: guest
         name:
           type: string
+          description: Display name of the user in the meeting room
           example: user-1
-          description: display name of the user in meeting room
     RoomType:
       type: string
       description: |
@@ -342,59 +340,61 @@ components:
         - private
       example: public
     UpdateRoomRequest:
-      description: Request format to update setting of exisiting room
       type: object
+      description: Request format to update setting of exisiting room
       required:
         - application_id
       properties:
         name:
           type: string
-          description: to chagne current room name
+          description: Set this to chagne current room name
           example: "Monthly Meetting - 2"
         is_terminated:
           type: boolean
-          description: set true if wanted to delete this room
+          description: Set true to close this room
           default: false
         is_record_deleted:
           type: boolean
-          description: set true if wanted to delete all recordings
+          description: Set true to delete all recordings. The room must be closed before deleting recodings.
           default: false
-        application_id:
-          type: string
-          description: specify application (workspace) id this room belongs to
-          example: 63d0bf2b2dbc8f9743338be8
     CreateRoomRequest:
-      description: Request format to create a new room
       type: object
+      description: Request format to create a new room
       required:
         - name
         - type
       properties:
         name:
           type: string
+          description: Human-readable name of the room
           example: "Meeting Room - 1"
         type:
           $ref: "#/components/schemas/RoomType"
         record:
           type: boolean
+          description: All meeting will be recorded
           default: true
         is_distinct:
           type: boolean
+          description: TODO
           default: false
         is_ephemeral:
           type: boolean
+          description: This room is a temporary room. The room will be terminated when every members in this room exited
           default: false
         is_recurring:
           type: boolean
+          description: This room is reserved for a meeting that occurs regularly. it will be reopened according to a predefined schedule.
           default: false
         room_template_id:
           type: string
+          description: Select room template to enable or disable video, audio and canvas. you can get available room template options with `List Room Templates` API
           example: 63d0bf2b2dbc8f9743338be8
         members:
           type: array
-          description: specify invited user_id and type
+          description: Specify inviting user_id and type
           items:
-            $ref: "#/components/schemas/Member"
+            $ref: "#/components/schemas/RoomMember"
     RoomTemplate:
       type: object
       required:
@@ -403,10 +403,10 @@ components:
       properties:
         name:
           type: string
-          description: name of room template
+          description: Name of room template
         id:
           type: string
-          description: id of room template to create a new room
+          description: ID of room template to create a new room
   securitySchemes:
     ApiKeyAuth:
       type: http
